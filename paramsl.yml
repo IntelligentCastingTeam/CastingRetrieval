@@ -1,0 +1,6 @@
+code_extraction:
+  model_path: "./data/voxelModel"
+  save_path: "./data/heat_signatures"
+  dim: 32
+  steps: 32
+  alpha: 0.1

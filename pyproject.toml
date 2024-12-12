@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "castingretrieval"
+version = "0.1.0"
+description = ""
+authors = ["ridfer <guoshuren@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode=false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+scikit-fem = {extras = ["all"], version = "^10.0.2"}
+scikit-learn = "^1.6.0"
+numpy = "^1.26.0"
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.1.1"
+pytest = "^8.3.4"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name='tsinghua-pypi'
+url =  "https://pypi.tuna.tsinghua.edu.cn/simple"
+priority='default'
