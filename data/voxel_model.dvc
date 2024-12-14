@@ -1,0 +1,6 @@
+outs:
+- md5: 8d66b548c6ddc0e626c83582d2b14d47.dir
+  size: 419481600
+  nfiles: 400
+  hash: md5
+  path: voxel_model

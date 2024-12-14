@@ -1,0 +1,17 @@
+stages:
+  heat_code:
+    cmd: conda activate modelretrieval && poetry run python .\src\Experiments\exp_heat_signatures.py
+    params:
+      - code_extraction
+    deps:
+      - ./data/voxel_model
+    outs:
+      - ./data/heat_signatures
+  heat_code_comparison:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_code_distance.py
+    params:
+      - code_comparison
+    deps:
+      - ${code_comparison.code_path}
+    outs:
+      - ${code_comparison.save_path}

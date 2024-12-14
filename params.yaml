@@ -1,0 +1,9 @@
+code_extraction:
+  model_path: "./data/voxel_model"
+  save_path: "./data/heat_signatures"
+  dim: 32
+  steps: 32
+  alpha: 0.1
+code_comparison:
+  code_path: "./data/heat_signatures/heat_codes.json"
+  save_path: "./data/heat_code_distance"

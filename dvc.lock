@@ -1,0 +1,42 @@
+schema: '2.0'
+stages:
+  heat_code:
+    cmd: conda activate modelretrieval && poetry run python .\src\Experiments\exp_heat_signatures.py
+    deps:
+    - path: ./data/voxel_model
+      hash: md5
+      md5: 8d66b548c6ddc0e626c83582d2b14d47.dir
+      size: 419481600
+      nfiles: 400
+    params:
+      params.yaml:
+        code_extraction:
+          model_path: ./data/voxel_model
+          save_path: ./data/heat_signatures
+          dim: 32
+          steps: 32
+          alpha: 0.1
+    outs:
+    - path: ./data/heat_signatures
+      hash: md5
+      md5: 2ed8aedbe3fb98a67bd03255b3a0b792.dir
+      size: 292441
+      nfiles: 1
+  heat_code_comparison:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_code_distance.py
+    deps:
+    - path: ./data/heat_signatures/heat_codes.json
+      hash: md5
+      md5: c0208191564da82125462c4b5cb9ccad
+      size: 292441
+    params:
+      params.yaml:
+        code_comparison:
+          code_path: ./data/heat_signatures/heat_codes.json
+          save_path: ./data/heat_code_distance
+    outs:
+    - path: ./data/heat_code_distance
+      hash: md5
+      md5: c07e0c23267bd9f54dd0731db9a91536.dir
+      size: 7677842
+      nfiles: 400
