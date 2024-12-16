@@ -40,3 +40,27 @@ stages:
       md5: c07e0c23267bd9f54dd0731db9a91536.dir
       size: 7677842
       nfiles: 400
+  statistic:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_similarity_statistcs.py
+    deps:
+    - path: ./data/heat_code_distance/
+      hash: md5
+      md5: c07e0c23267bd9f54dd0731db9a91536.dir
+      size: 7677842
+      nfiles: 400
+    params:
+      params.yaml:
+        statistic:
+          similarity_path: ./data/heat_code_distance/
+          truth_path: ./data/similarity_truth.json
+          save_path: ./data/statistic
+    outs:
+    - path: ./data/similarity_truth.json
+      hash: md5
+      md5: 4778535104cd428c1728e7a71d0a19ed
+      size: 40196
+    - path: ./data/statistic
+      hash: md5
+      md5: f4ab95c938c13c3d0074d77bfeb34ae2.dir
+      size: 246300
+      nfiles: 1

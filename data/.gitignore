@@ -1,3 +1,5 @@
 /voxel_model
 /heat_signatures
 /heat_code_distance
+/statistic
+/similarity_truth.json

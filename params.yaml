@@ -7,3 +7,7 @@ code_extraction:
 code_comparison:
   code_path: "./data/heat_signatures/heat_codes.json"
   save_path: "./data/heat_code_distance"
+statistic:
+  similarity_path: "./data/heat_code_distance/"
+  truth_path: "./data/similarity_truth.json"
+  save_path: "./data/statistic"

@@ -2,16 +2,33 @@ stages:
   heat_code:
     cmd: conda activate modelretrieval && poetry run python .\src\Experiments\exp_heat_signatures.py
     params:
-      - code_extraction
+    - code_extraction
     deps:
-      - ./data/voxel_model
+    - ./data/voxel_model
     outs:
-      - ./data/heat_signatures
+    - ./data/heat_signatures
   heat_code_comparison:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_code_distance.py
     params:
-      - code_comparison
+    - code_comparison
     deps:
-      - ${code_comparison.code_path}
+    - ${code_comparison.code_path}
     outs:
-      - ${code_comparison.save_path}
+    - ${code_comparison.save_path}
+  statistic:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_similarity_statistcs.py
+    params:
+    - statistic
+    deps:
+    - ${statistic.similarity_path}
+    outs:
+    - ${statistic.save_path}
+    - ${statistic.truth_path}:
+        persist: true
+plots:
+- dvclive/plots/custom/PR Curve.json:
+    template: linear
+    x: recall
+    y: precision
+    x_label: Recall
+    y_label: Precision
