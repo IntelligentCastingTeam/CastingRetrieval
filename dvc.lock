@@ -66,3 +66,32 @@ stages:
       md5: 4af78e6cf55b4972d2416270f3713644.dir
       size: 161411
       nfiles: 1
+  hc_heat_code:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code.py
+    deps:
+    - path: ./data/fill_inside/
+      hash: md5
+      md5: 02cfe822e8c76317b831b4cbbe12f150.dir
+      size: 26894185
+      nfiles: 417
+    - path: ./data/labeled_cavities/
+      hash: md5
+      md5: 6fdd9cf5ffd7bc9b905c599e7c14d1a2.dir
+      size: 214779848
+      nfiles: 417
+    params:
+      params.yaml:
+        cavity_code:
+          hull_dim: 64
+          cavity_dim: 8
+          steps: 32
+          alpha: 0.1
+          hull_path: ./data/fill_inside/
+          cavity_path: ./data/labeled_cavities/
+          save_path: ./data/cavity_code/
+    outs:
+    - path: ./data/cavity_code/
+      hash: md5
+      md5: c282fd26f4e40e7b4df7ad9f07bb0c09.dir
+      size: 555336
+      nfiles: 417

@@ -1,0 +1,6 @@
+outs:
+- md5: 6fdd9cf5ffd7bc9b905c599e7c14d1a2.dir
+  size: 214779848
+  nfiles: 417
+  hash: md5
+  path: labeled_cavities

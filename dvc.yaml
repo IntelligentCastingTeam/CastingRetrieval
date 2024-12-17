@@ -25,6 +25,16 @@ stages:
     - ${statistic.save_path}
     - ${statistic.truth_path}:
         persist: true
+  hc_heat_code:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code.py
+    params:
+    - cavity_code
+    deps:
+    - ${cavity_code.hull_path}
+    - ${cavity_code.cavity_path}
+    outs:
+    - ${cavity_code.save_path}
+
 plots:
 - dvclive/plots/custom/PR Curve.json:
     template: linear

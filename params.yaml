@@ -13,3 +13,11 @@ statistic:
   save_path: ./data/statistic
   volume_thres: 0.8
   ssa_thres: 0.8
+cavity_code:
+  hull_dim: 64
+  cavity_dim: 8
+  steps: 32
+  alpha: 0.1
+  hull_path: ./data/fill_inside/
+  cavity_path: ./data/labeled_cavities/
+  save_path: ./data/cavity_code/
