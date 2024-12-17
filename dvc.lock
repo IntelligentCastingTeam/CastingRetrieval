@@ -13,22 +13,22 @@ stages:
         code_extraction:
           model_path: ./data/voxel_model
           save_path: ./data/heat_signatures
-          dim: 32
+          dim: 64
           steps: 32
           alpha: 0.1
     outs:
     - path: ./data/heat_signatures
       hash: md5
-      md5: 2ed8aedbe3fb98a67bd03255b3a0b792.dir
-      size: 292441
+      md5: 049276e7a4f25bd2e8a92fcfe80a7ff3.dir
+      size: 581629
       nfiles: 1
   heat_code_comparison:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_code_distance.py
     deps:
     - path: ./data/heat_signatures/heat_codes.json
       hash: md5
-      md5: c0208191564da82125462c4b5cb9ccad
-      size: 292441
+      md5: 5d80df6ad30d659e34343507d5ffb657
+      size: 581629
     params:
       params.yaml:
         code_comparison:
@@ -37,16 +37,16 @@ stages:
     outs:
     - path: ./data/heat_code_distance
       hash: md5
-      md5: c07e0c23267bd9f54dd0731db9a91536.dir
-      size: 7677842
+      md5: ac79924fea5dc39aeaa305eae2f72236.dir
+      size: 7689086
       nfiles: 400
   statistic:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_similarity_statistcs.py
     deps:
     - path: ./data/heat_code_distance/
       hash: md5
-      md5: c07e0c23267bd9f54dd0731db9a91536.dir
-      size: 7677842
+      md5: ac79924fea5dc39aeaa305eae2f72236.dir
+      size: 7689086
       nfiles: 400
     params:
       params.yaml:
@@ -54,13 +54,15 @@ stages:
           similarity_path: ./data/heat_code_distance/
           truth_path: ./data/similarity_truth.json
           save_path: ./data/statistic
+          volume_thres: 0.8
+          ssa_thres: 0.8
     outs:
     - path: ./data/similarity_truth.json
       hash: md5
-      md5: 4778535104cd428c1728e7a71d0a19ed
-      size: 40196
+      md5: 1f9fae32c1986b9b5ad8ab3f5e29be50
+      size: 21048
     - path: ./data/statistic
       hash: md5
-      md5: f4ab95c938c13c3d0074d77bfeb34ae2.dir
-      size: 246300
+      md5: 4af78e6cf55b4972d2416270f3713644.dir
+      size: 161411
       nfiles: 1

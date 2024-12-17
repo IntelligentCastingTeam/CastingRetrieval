@@ -41,7 +41,7 @@ def heat_signature(
     ).fit(values)
     result = kmeans.predict(values)
 
-    code = np.bincount(result, weights=None, minlength=0)
+    code = np.bincount(result, weights=None, minlength=dim)
     code = code.astype(np.float32) / np.sum(code)
 
     return code
