@@ -63,22 +63,22 @@ stages:
       size: 21048
     - path: ./data/statistic
       hash: md5
-      md5: 4af78e6cf55b4972d2416270f3713644.dir
-      size: 161411
-      nfiles: 1
+      md5: d8764991a5d5aa83cc35fb40b1ce058c.dir
+      size: 198361
+      nfiles: 2
   hc_heat_code:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code.py
     deps:
     - path: ./data/fill_inside/
       hash: md5
-      md5: 02cfe822e8c76317b831b4cbbe12f150.dir
-      size: 26894185
-      nfiles: 417
+      md5: 45703cf767b86e21f234464a456e464a.dir
+      size: 25372717
+      nfiles: 400
     - path: ./data/labeled_cavities/
       hash: md5
-      md5: 6fdd9cf5ffd7bc9b905c599e7c14d1a2.dir
-      size: 214779848
-      nfiles: 417
+      md5: 73f7601045f253575f0178d4bcb62fdd.dir
+      size: 202623336
+      nfiles: 400
     params:
       params.yaml:
         cavity_code:
@@ -92,6 +92,25 @@ stages:
     outs:
     - path: ./data/cavity_code/
       hash: md5
-      md5: c282fd26f4e40e7b4df7ad9f07bb0c09.dir
-      size: 555336
-      nfiles: 417
+      md5: af0e779898dfa63460c6c64d2659235c.dir
+      size: 524813
+      nfiles: 400
+  hc_heat_code_comparison:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code_similarity.py
+    deps:
+    - path: ./data/cavity_code
+      hash: md5
+      md5: af0e779898dfa63460c6c64d2659235c.dir
+      size: 524813
+      nfiles: 400
+    params:
+      params.yaml:
+        cavity_comparison:
+          save_path: ./data/cavity_comparison
+          code_path: ./data/cavity_code
+    outs:
+    - path: ./data/cavity_comparison
+      hash: md5
+      md5: b1183a0247c1ba66c0bf683cffd3f236.dir
+      size: 12130440
+      nfiles: 400

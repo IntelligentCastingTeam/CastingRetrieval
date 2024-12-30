@@ -21,3 +21,6 @@ cavity_code:
   hull_path: ./data/fill_inside/
   cavity_path: ./data/labeled_cavities/
   save_path: ./data/cavity_code/
+cavity_comparison:
+  save_path: ./data/cavity_comparison
+  code_path: ./data/cavity_code

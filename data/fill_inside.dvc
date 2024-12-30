@@ -1,6 +1,6 @@
 outs:
-- md5: 02cfe822e8c76317b831b4cbbe12f150.dir
-  size: 26894185
-  nfiles: 417
+- md5: 45703cf767b86e21f234464a456e464a.dir
+  size: 25372717
+  nfiles: 400
   hash: md5
   path: fill_inside
