@@ -39,8 +39,16 @@ def cal_simulation(first_code: dict, second_code: dict):
                 sim_array[x, y] = sim * pos_sim
 
         cav_sim = np.average(np.max(sim_array, axis=1))
+    if cav_sim == 0:
+        sim = hull_sim
+    else:
+        sim = 2 * hull_sim * cav_sim / (hull_sim + cav_sim)
 
-    return {"hull_sim": hull_sim, "cavity_sim": cav_sim}
+    return {
+        "hull_sim": hull_sim,
+        "cavity_sim": cav_sim,
+        "sim": sim,
+    }
     pass
 
 

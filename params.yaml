@@ -24,3 +24,9 @@ cavity_code:
 cavity_comparison:
   save_path: ./data/cavity_comparison
   code_path: ./data/cavity_code
+hc_statistic:
+  code_path: ./data/cavity_comparison/
+  save_path: ./data/hc_statistic
+  volume_thres: 0.8
+  ssa_thres: 0.8
+  truth_path: ./data/similarity_truth.json

@@ -42,14 +42,19 @@ stages:
     - ${cavity_comparison.code_path}
     outs:
     - ${cavity_comparison.save_path}
+  hc_heat_code_statistic:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_heat_statistics.py
+    params:
+    - hc_statistic
+    deps:
+    - ${hc_statistic.code_path}
+    outs:
+    - ${hc_statistic.save_path}
+    - ${hc_statistic.truth_path}:
+        persist: true
+
 
 plots:
-- dvclive/plots/custom/PR Curve.json:
-    template: linear
-    x: recall
-    y: precision
-    x_label: Recall
-    y_label: Precision
 - dvclive/pr/plots/custom/PR Curve.json:
     template: linear
     x: recall
@@ -57,6 +62,12 @@ plots:
     x_label: Recall
     y_label: Precision
 - dvclive/pr/plots/custom/PR Curve.json:
+    template: linear
+    x: recall
+    y: precision
+    x_label: Recall
+    y_label: Precision
+- dvclive/hc_pr/plots/custom/PR Curve.json:
     template: linear
     x: recall
     y: precision
@@ -65,4 +76,5 @@ plots:
 metrics:
 - dvclive/err/metrics.json
 - dvclive/pr/metrics.json
-- dvclive/err/metrics.json
+- dvclive/hc_pr/metrics.json
+- dvclive/hc_err/metrics.json
