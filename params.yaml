@@ -1,7 +1,7 @@
 code_extraction:
   model_path: ./data/voxel_model
   save_path: ./data/heat_signatures
-  dim: 64
+  dim: 32
   steps: 32
   alpha: 0.1
 code_comparison:
@@ -14,7 +14,7 @@ statistic:
   volume_thres: 0.8
   ssa_thres: 0.8
 cavity_code:
-  hull_dim: 64
+  hull_dim: 32
   cavity_dim: 8
   steps: 32
   alpha: 0.1
@@ -30,3 +30,27 @@ hc_statistic:
   volume_thres: 0.8
   ssa_thres: 0.8
   truth_path: ./data/similarity_truth.json
+n2_statistic:
+  code_path: ./data/n2_comparison/
+  save_path: ./data/n2_statistic
+  volume_thres: 0.8
+  ssa_thres: 0.8
+  truth_path: ./data/similarity_truth.json
+n2_hull_code:
+  model_path: ./data/voxel_model
+  save_path: ./data/n2_hull_code
+  shape:
+    - 64
+    - 64
+    - 64
+  dim: 60
+n2_hull_code_similarity:
+  code_path: ./data/n2_hull_code/n2_hull_code.json
+  save_path: ./data/n2_hull_code_similarity
+n2_hull_statistic:
+  sim_path: ./data/n2_hull_code_similarity
+  save_path: ./data/n2_hull_statistic
+  volume_thres: 0.8
+  ssa_thres: 0.8
+  truth_path: ./data/similarity_truth.json
+

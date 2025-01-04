@@ -1,0 +1,6 @@
+outs:
+- md5: 40135b9d0d10077a559b2cd205b3c3d8.dir
+  size: 12456525
+  nfiles: 400
+  hash: md5
+  path: n2_comparison

@@ -31,7 +31,7 @@ def heat_signature(
         tempature = np.repeat(tempature, 4, axis=0)
         tempature = np.repeat(tempature, 4, axis=1)
         tempature = np.repeat(tempature, 4, axis=2)
-        alpha = alpha / 4
+        alpha = alpha / 16
 
     mask = np.zeros_like(tempature, dtype=np.int8)
     mask[tempature > 0] = 1

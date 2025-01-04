@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import sys
+import math
 from collections import defaultdict
 from pathlib import Path
 
@@ -76,7 +77,7 @@ def retrieval_pr():
             tp_count = 0
             t_count = 0
             for index in range(len(distances)):
-                id, _ = distances[index]
+                id, dis = distances[index]
                 sim_part = parts.find_one({"_id": ObjectId(id)})
                 volume_sim = 1 - abs(doc["volume"] - sim_part["volume"]) / (
                     doc["volume"] + sim_part["volume"]
@@ -87,6 +88,7 @@ def retrieval_pr():
                 if volume_sim < volume_thres or ssa_sim < ssa_thres:
                     continue
 
+                sim = math.floor(1 / (1 + dis) * 100) / 100.0
                 t_count += 1
                 if id in sims_dict[name]:
                     tp_count += 1
@@ -101,6 +103,7 @@ def retrieval_pr():
                             {
                                 "name": str(name),
                                 "count": t_count,
+                                "thres": sim,
                                 "precision": precision,
                                 "recall": recall,
                                 "FScore": (
@@ -117,9 +120,10 @@ def retrieval_pr():
                     ignore_index=True,
                 )
         data.to_csv(os.path.join(save_path, "statistic.csv"), index=False)
-        pr_data = data.groupby("count")[["precision", "recall"]].mean()
-        max_F = data.groupby("count")[["FScore"]].mean()
-        max_F = max_F["FScore"].max()
+        pr_data = data.groupby("thres")[["precision", "recall"]].mean()
+        pr_data = pr_data.reset_index()
+        count_data = data.groupby("count")[["precision", "recall"]].mean()
+        count_data = count_data.reset_index()
         live.log_plot(
             name="PR Curve",
             datapoints=pr_data,
@@ -129,7 +133,35 @@ def retrieval_pr():
             x_label="Recall",
             y_label="Precision",
         )
-        live.log_metric(name="FScore", val=max_F, plot=False)
+        live.log_plot(
+            name="Count pr curve",
+            datapoints=count_data,
+            x="recall",
+            y="precision",
+            x_label="Recall",
+            y_label="Precision",
+        )
+
+        thres_F = data.groupby("thres")[["FScore"]].mean()
+        thres_F = thres_F.reset_index()
+        count_F = data.groupby("count")[["FScore"]].mean()
+        count_F = count_F.reset_index()
+        live.log_plot(
+            name="Thres FScore",
+            datapoints=thres_F,
+            x="thres",
+            y="FScore",
+            x_label="Threshold",
+            y_label="FScore",
+        )
+        live.log_plot(
+            name="Count FScore",
+            datapoints=count_F,
+            x="count",
+            y="FScore",
+            x_label="Count",
+            y_label="FScore",
+        )
 
     pass
 
@@ -190,7 +222,7 @@ def retrieval_err():
             if len(R_list) == 0:
                 err = R[level]
             else:
-                err += R[level] * np.prod(1 - np.array(R_list) / (len(R_list) + 1))
+                err += R[level] * np.prod(1 - np.array(R_list)) / (len(R_list) + 1)
 
             R_list.append(R[level])
 

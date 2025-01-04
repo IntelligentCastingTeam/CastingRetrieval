@@ -1,30 +1,28 @@
-import os
-import sys
-import math
-from pathlib import Path
-import numpy as np
-
 import json
-
-from tqdm import tqdm
-import pymongo
+import math
+import os
+import numpy as np
 import pandas as pd
+import pymongo
+
 from bson import ObjectId
-from dvc.api import params_show
-from collections import defaultdict
 from dvclive import Live
+from dvc.api import params_show
+from pathlib import Path
+from collections import defaultdict
+from tqdm import tqdm
 
 
-def retrieval_pr():
+def exp_n2_pr():
     params = params_show()
 
-    similarity_path = params["hc_statistic"]["code_path"]
-    save_path = Path(params["hc_statistic"]["save_path"])
+    similarity_path = params["n2_statistic"]["code_path"]
+    save_path = Path(params["n2_statistic"]["save_path"])
     save_path.mkdir(exist_ok=True)
 
-    truth_path = params["hc_statistic"]["truth_path"]
-    volume_thres = params["hc_statistic"]["volume_thres"]
-    ssa_thres = params["hc_statistic"]["ssa_thres"]
+    truth_path = params["n2_statistic"]["truth_path"]
+    volume_thres = params["n2_statistic"]["volume_thres"]
+    ssa_thres = params["n2_statistic"]["ssa_thres"]
 
     client = pymongo.MongoClient("mongodb://localhost")
     db = client["castingprocesses"]
@@ -61,7 +59,7 @@ def retrieval_pr():
         with open(truth_path, "r") as fp:
             sims_dict = json.load(fp)
 
-    with Live("./dvclive/hc_pr") as live:
+    with Live("./dvclive/n2_pr") as live:
         data = pd.DataFrame()
         for name in tqdm(sims_dict):
             if len(sims_dict[name]) == 0:
@@ -70,6 +68,14 @@ def retrieval_pr():
             doc = parts.find_one({"_id": ObjectId(name)})
             with open(os.path.join(similarity_path, file), "r") as fp:
                 distances = json.load(fp)
+            for key in distances:
+                hull_sim = distances[key]["hull_sim"]
+                cavity_sim = distances[key]["cavity_sim"]
+                distances[key]["sim"] = (
+                    2 * hull_sim * cavity_sim / (hull_sim + cavity_sim)
+                    if cavity_sim != 0
+                    else hull_sim
+                )
             distances = sorted(
                 distances.items(), key=lambda k: (k[1]["sim"]), reverse=True
             )
@@ -122,10 +128,10 @@ def retrieval_pr():
         data.to_csv(os.path.join(save_path, "statistic.csv"), index=False)
         pr_data = data.groupby("thres")[["precision", "recall"]].mean()
         pr_data = pr_data.reset_index()
-        count_data = data.groupby("count")[["precision", "recall"]].mean()
-        count_data = count_data.reset_index()
+        count_pr = data.groupby("count")[["precision", "recall"]].mean()
+        count_pr = count_pr.reset_index()
         live.log_plot(
-            name="PR Curve",
+            name="thres PR Curve",
             datapoints=pr_data,
             x="recall",
             y="precision",
@@ -134,14 +140,14 @@ def retrieval_pr():
             y_label="Precision",
         )
         live.log_plot(
-            name="Count pr curve",
-            datapoints=count_data,
+            name="count pr curve",
+            datapoints=count_pr,
             x="recall",
             y="precision",
+            template="linear",
             x_label="Recall",
             y_label="Precision",
         )
-
         thres_F = data.groupby("thres")[["FScore"]].mean()
         thres_F = thres_F.reset_index()
         count_F = data.groupby("count")[["FScore"]].mean()
@@ -163,30 +169,13 @@ def retrieval_pr():
             y_label="FScore",
         )
 
-    pass
-
-
-def retrieval_err():
-    params = params_show()
-
-    similarity_path = params["hc_statistic"]["code_path"]
-    save_path = Path(params["hc_statistic"]["save_path"])
-    save_path.mkdir(exist_ok=True)
-
-    volume_thres = params["hc_statistic"]["volume_thres"]
-    ssa_thres = params["hc_statistic"]["ssa_thres"]
-
-    client = pymongo.MongoClient("mongodb://localhost")
-    db = client["castingprocesses"]
-    parts = db["parts"]
-
-    docs = parts.find({"sim_level": {"$exists": True}})
-    doc_ids = [doc["_id"] for doc in docs]
-
     R = []
     n = 4
     for i in range(n):
         R.append((2**i - 1) / (2 ** (n - 1)))
+
+    docs = parts.find({"sim_level": {"$exists": True}})
+    doc_ids = [doc["_id"] for doc in docs]
 
     errs = pd.DataFrame()
 
@@ -196,6 +185,14 @@ def retrieval_err():
         with open(os.path.join(similarity_path, f"{id}.json"), "r") as fp:
             simlist = json.load(fp)
 
+        for key in simlist:
+            hull_sim = simlist[key]["hull_sim"]
+            cavity_sim = simlist[key]["cavity_sim"]
+            simlist[key]["sim"] = (
+                2 * hull_sim * cavity_sim / (hull_sim + cavity_sim)
+                if cavity_sim != 0
+                else hull_sim
+            )
         simlist = sorted(simlist.items(), key=lambda k: (k[1]["sim"]), reverse=True)
 
         R_list = []
@@ -239,10 +236,10 @@ def retrieval_err():
         )
     errs.to_csv(os.path.join(save_path, "err.csv"), index=False)
     mean_err = errs["err"].mean()
-    with Live("./dvclive\\hc_err") as live:
+    with Live("./dvclive\\n2_err") as live:
         live.log_metric("err", mean_err, plot=False)
+    pass
 
 
 if __name__ == "__main__":
-    retrieval_pr()
-    retrieval_err()
+    exp_n2_pr()

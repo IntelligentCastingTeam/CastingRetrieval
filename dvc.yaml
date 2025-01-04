@@ -21,6 +21,7 @@ stages:
     - statistic
     deps:
     - ${statistic.similarity_path}
+    - ./src/Experiments/exp_similarity_statistcs.py
     outs:
     - ${statistic.save_path}
     - ${statistic.truth_path}:
@@ -32,6 +33,7 @@ stages:
     deps:
     - ${cavity_code.hull_path}
     - ${cavity_code.cavity_path}
+    - ./src/Experiments/exp_cavity_code.py
     outs:
     - ${cavity_code.save_path}
   hc_heat_code_comparison:
@@ -48,33 +50,65 @@ stages:
     - hc_statistic
     deps:
     - ${hc_statistic.code_path}
+    - ./src/Experiments/exp_cavity_heat_statistics.py
     outs:
     - ${hc_statistic.save_path}
-    - ${hc_statistic.truth_path}:
-        persist: true
+  n2_statistic:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_n2_statistics.py
+    params:
+    - n2_statistic
+    deps:
+    - ${n2_statistic.code_path}
+    - ./src/Experiments/exp_n2_statistics.py
+    outs:
+    - ${n2_statistic.save_path}
+  n2_hull_code:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_n2_hull_code.py
+    params:
+    - n2_hull_code
+    deps:
+    - ${n2_hull_code.model_path}
+    outs:
+    - ${n2_hull_code.save_path}
+  n2_hull_similarity:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_n2_hull_code_similarity.py
+    params:
+    - n2_hull_code_similarity
+    deps:
+    - ${n2_hull_code_similarity.code_path}
+    outs:
+    - ${n2_hull_code_similarity.save_path}
+  n2_hull_statistic:
+    cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_n2_hull_code_statistic.py
+    params:
+    - n2_hull_statistic
+    deps:
+    - ${n2_hull_statistic.sim_path}
+    outs:
+    - ${n2_hull_statistic.save_path}
 
 
 plots:
-- dvclive/pr/plots/custom/PR Curve.json:
+- dvclive/n2_hull_pr/plots/custom/PR Curve.json:
     template: linear
     x: recall
     y: precision
     x_label: Recall
     y_label: Precision
-- dvclive/pr/plots/custom/PR Curve.json:
-    template: linear
+- dvclive/n2_hull_pr/plots/custom/Count pr curve.json:
     x: recall
     y: precision
     x_label: Recall
     y_label: Precision
-- dvclive/hc_pr/plots/custom/PR Curve.json:
-    template: linear
-    x: recall
-    y: precision
-    x_label: Recall
-    y_label: Precision
+- dvclive/n2_hull_pr/plots/custom/Thres FScore.json:
+    x: thres
+    y: FScore
+    x_label: Threshold
+    y_label: FScore
+- dvclive/n2_hull_pr/plots/custom/Count FScore.json:
+    x: count
+    y: FScore
+    x_label: Count
+    y_label: FScore
 metrics:
-- dvclive/err/metrics.json
-- dvclive/pr/metrics.json
-- dvclive/hc_pr/metrics.json
-- dvclive/hc_err/metrics.json
+- dvclive/n2_hull_err/metrics.json
