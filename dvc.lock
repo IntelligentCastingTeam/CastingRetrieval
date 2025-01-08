@@ -85,31 +85,29 @@ stages:
       nfiles: 400
     - path: ./src/Experiments/exp_cavity_code.py
       hash: md5
-      md5: a6db7c77724ae2eb8d2c825d00346cba
-      size: 2285
+      md5: b4ddf53708cac741eb7338dbfb058e6f
+      size: 2301
     params:
       params.yaml:
         cavity_code:
           hull_dim: 32
           cavity_dim: 8
-          steps: 32
-          alpha: 0.1
           hull_path: ./data/fill_inside/
           cavity_path: ./data/labeled_cavities/
           save_path: ./data/cavity_code/
     outs:
     - path: ./data/cavity_code/
       hash: md5
-      md5: f46ecea10b2ac74d57409f2ff94886ec.dir
-      size: 323591
+      md5: 924dfb8191838a910b6e0404e849c379.dir
+      size: 323597
       nfiles: 400
   hc_heat_code_comparison:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code_similarity.py
     deps:
     - path: ./data/cavity_code
       hash: md5
-      md5: f46ecea10b2ac74d57409f2ff94886ec.dir
-      size: 323591
+      md5: 924dfb8191838a910b6e0404e849c379.dir
+      size: 323597
       nfiles: 400
     params:
       params.yaml:
@@ -119,16 +117,16 @@ stages:
     outs:
     - path: ./data/cavity_comparison
       hash: md5
-      md5: 262a502adce6c6331dadba6193c5c850.dir
-      size: 16935660
+      md5: 084095c9fb4e7302f3f5666eb59b7163.dir
+      size: 16902294
       nfiles: 400
   hc_heat_code_statistic:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_heat_statistics.py
     deps:
     - path: ./data/cavity_comparison/
       hash: md5
-      md5: 262a502adce6c6331dadba6193c5c850.dir
-      size: 16935660
+      md5: 084095c9fb4e7302f3f5666eb59b7163.dir
+      size: 16902294
       nfiles: 400
     - path: ./src/Experiments/exp_cavity_heat_statistics.py
       hash: md5
@@ -145,8 +143,8 @@ stages:
     outs:
     - path: ./data/hc_statistic
       hash: md5
-      md5: 1d66815e115504b7d7448762b79af45e.dir
-      size: 216619
+      md5: bba261a3846a016bf85efb7267aeec84.dir
+      size: 217711
       nfiles: 2
   n2_statistic:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_n2_statistics.py

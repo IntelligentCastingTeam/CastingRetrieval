@@ -54,7 +54,13 @@ def heat_signature(
     ).fit(values)
     result = kmeans.predict(values)
 
-    code = np.bincount(result, weights=None, minlength=dim)
+    centers = np.mean(kmeans.cluster_centers_, axis=1)
+    sorted_labels = sorted(range(dim), key=lambda k: centers[k])
+    sorted_result = []
+    for i in result:
+        sorted_result.append(sorted_labels.index(i))
+
+    code = np.bincount(sorted_result, weights=None, minlength=dim)
     code = code.astype(np.float32) / np.sum(code)
 
     return code

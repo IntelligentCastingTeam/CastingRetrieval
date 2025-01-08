@@ -34,8 +34,8 @@ def exp_cavity_code():
                 "code": heat_signature(
                     hull,
                     dim=params["cavity_code"]["hull_dim"],
-                    steps=params["cavity_code"]["steps"],
-                    alpha=params["cavity_code"]["alpha"],
+                    steps=params["code_extraction"]["steps"],
+                    alpha=params["code_extraction"]["alpha"],
                 ).tolist(),
             }
 
@@ -53,8 +53,8 @@ def exp_cavity_code():
                     "code": heat_signature(
                         cav,
                         dim=params["cavity_code"]["cavity_dim"],
-                        steps=params["cavity_code"]["steps"],
-                        alpha=params["cavity_code"]["alpha"],
+                        steps=params["code_extraction"]["steps"],
+                        alpha=params["code_extraction"]["alpha"],
                     ).tolist(),
                 }
                 cavity_codes.append(cav_code)
