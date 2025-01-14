@@ -14,21 +14,21 @@ stages:
           model_path: ./data/voxel_model
           save_path: ./data/heat_signatures
           dim: 32
-          steps: 32
-          alpha: 0.1
+          steps: 24
+          alpha: 0.05
     outs:
     - path: ./data/heat_signatures
       hash: md5
-      md5: d7500ff646f21aa99b32548016bc4d07.dir
-      size: 286360
+      md5: 2c1c2b5eef36af43c3bbab9695ccb469.dir
+      size: 286630
       nfiles: 1
   heat_code_comparison:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_code_distance.py
     deps:
     - path: ./data/heat_signatures/heat_codes.json
       hash: md5
-      md5: cfe7d356abe136a8ed0fe02d79cd907a
-      size: 286360
+      md5: 7e3d3ec0e21c7e42a92f8cfa5f29f8e1
+      size: 286630
     params:
       params.yaml:
         code_comparison:
@@ -37,16 +37,16 @@ stages:
     outs:
     - path: ./data/heat_code_distance
       hash: md5
-      md5: 3d7a5f4265d27bf2e0912c95115394d5.dir
-      size: 7661734
+      md5: 85ba917f22e9175d9ac0a158edc5f978.dir
+      size: 7639404
       nfiles: 400
   statistic:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_similarity_statistcs.py
     deps:
     - path: ./data/heat_code_distance/
       hash: md5
-      md5: 3d7a5f4265d27bf2e0912c95115394d5.dir
-      size: 7661734
+      md5: 85ba917f22e9175d9ac0a158edc5f978.dir
+      size: 7639404
       nfiles: 400
     - path: ./src/Experiments/exp_similarity_statistcs.py
       hash: md5
@@ -67,8 +67,8 @@ stages:
       size: 21048
     - path: ./data/statistic
       hash: md5
-      md5: d1c45b5096c70aa833f994b580b653a1.dir
-      size: 215730
+      md5: 7352c657da6367c5b2a3f96728091b4f.dir
+      size: 215103
       nfiles: 2
   hc_heat_code:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code.py
@@ -95,19 +95,21 @@ stages:
           hull_path: ./data/fill_inside/
           cavity_path: ./data/labeled_cavities/
           save_path: ./data/cavity_code/
+        code_extraction.alpha: 0.05
+        code_extraction.steps: 24
     outs:
     - path: ./data/cavity_code/
       hash: md5
-      md5: 924dfb8191838a910b6e0404e849c379.dir
-      size: 323597
+      md5: 5e1fa5335ce078ca6e6378e39aab9625.dir
+      size: 325906
       nfiles: 400
   hc_heat_code_comparison:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_code_similarity.py
     deps:
     - path: ./data/cavity_code
       hash: md5
-      md5: 924dfb8191838a910b6e0404e849c379.dir
-      size: 323597
+      md5: 5e1fa5335ce078ca6e6378e39aab9625.dir
+      size: 325906
       nfiles: 400
     params:
       params.yaml:
@@ -117,16 +119,16 @@ stages:
     outs:
     - path: ./data/cavity_comparison
       hash: md5
-      md5: 084095c9fb4e7302f3f5666eb59b7163.dir
-      size: 16902294
+      md5: facc97a72f203d1ad4e615083a75bbe1.dir
+      size: 16897434
       nfiles: 400
   hc_heat_code_statistic:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_cavity_heat_statistics.py
     deps:
     - path: ./data/cavity_comparison/
       hash: md5
-      md5: 084095c9fb4e7302f3f5666eb59b7163.dir
-      size: 16902294
+      md5: facc97a72f203d1ad4e615083a75bbe1.dir
+      size: 16897434
       nfiles: 400
     - path: ./src/Experiments/exp_cavity_heat_statistics.py
       hash: md5
@@ -143,8 +145,8 @@ stages:
     outs:
     - path: ./data/hc_statistic
       hash: md5
-      md5: bba261a3846a016bf85efb7267aeec84.dir
-      size: 217711
+      md5: 17ad3a81c4fbf38b2ca7a3f478857ac4.dir
+      size: 217539
       nfiles: 2
   n2_statistic:
     cmd: conda activate modelretrieval && poetry run python ./src/Experiments/exp_n2_statistics.py
