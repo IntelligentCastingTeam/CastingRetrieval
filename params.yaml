@@ -2,7 +2,7 @@ code_extraction:
   model_path: ./data/voxel_model
   save_path: ./data/heat_signatures
   dim: 32
-  steps: 32
+  steps: 40
   alpha: 0.1
 code_comparison:
   code_path: ./data/heat_signatures/heat_codes.json
@@ -38,9 +38,9 @@ n2_hull_code:
   model_path: ./data/voxel_model
   save_path: ./data/n2_hull_code
   shape:
-    - 64
-    - 64
-    - 64
+  - 64
+  - 64
+  - 64
   dim: 60
 n2_hull_code_similarity:
   code_path: ./data/n2_hull_code/n2_hull_code.json
