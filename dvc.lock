@@ -95,6 +95,8 @@ stages:
           hull_path: ./data/fill_inside/
           cavity_path: ./data/labeled_cavities/
           save_path: ./data/cavity_code/
+        code_extraction.alpha: 0.1
+        code_extraction.steps: 32
     outs:
     - path: ./data/cavity_code/
       hash: md5
