@@ -25,8 +25,8 @@ def heat_signature(
     ps = np.argwhere(tempature > 0)
 
     if len(ps) < dim * 4:
-        min_x, min_y, min_z = np.min(ps, axis=1)
-        max_x, max_y, max_z = np.max(ps, axis=1)
+        min_x, min_y, min_z = np.min(ps, axis=0)
+        max_x, max_y, max_z = np.max(ps, axis=0)
         tempature = tempature[min_x : max_x + 1, min_y : max_y + 1, min_z : max_z + 1]
         tempature = np.repeat(tempature, 4, axis=0)
         tempature = np.repeat(tempature, 4, axis=1)

@@ -47,6 +47,8 @@ def exp_cavity_code():
                     continue
                 cav = np.zeros_like(cavity)
                 cav[cavity == value] = 1
+                if np.sum(cav) == 1:
+                    continue
                 cav_code = {
                     "centroid": cal_centroid(cav).tolist(),
                     "volume": cal_volume(cav),
