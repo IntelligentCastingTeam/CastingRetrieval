@@ -198,9 +198,53 @@ plots:
     y: FScore
     x_label: Count
     y_label: FScore
+- dvclive/pr/plots/custom/PR Curve.json:
+    template: linear
+    x: recall
+    y: precision
+    x_label: Recall
+    y_label: Precision
+- dvclive/pr/plots/custom/Count pr curve.json:
+    x: recall
+    y: precision
+    x_label: Recall
+    y_label: Precision
+- dvclive/pr/plots/custom/Thres FScore.json:
+    x: thres
+    y: FScore
+    x_label: Threshold
+    y_label: FScore
+- dvclive/pr/plots/custom/Count FScore.json:
+    x: count
+    y: FScore
+    x_label: Count
+    y_label: FScore
+- dvclive/hc_pr/plots/custom/PR Curve.json:
+    template: linear
+    x: recall
+    y: precision
+    x_label: Recall
+    y_label: Precision
+- dvclive/hc_pr/plots/custom/Count pr curve.json:
+    x: recall
+    y: precision
+    x_label: Recall
+    y_label: Precision
+- dvclive/hc_pr/plots/custom/Thres FScore.json:
+    x: thres
+    y: FScore
+    x_label: Threshold
+    y_label: FScore
+- dvclive/hc_pr/plots/custom/Count FScore.json:
+    x: count
+    y: FScore
+    x_label: Count
+    y_label: FScore
 metrics:
 - dvclive/n2_hull_err/metrics.json
 - dvclive/n2_err/metrics.json
+- dvclive/err/metrics.json
+- dvclive/hc_err/metrics.json
 - dvclive/err/metrics.json
 - dvclive/hc_err/metrics.json
 - dvclive/err/metrics.json
